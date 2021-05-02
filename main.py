@@ -460,12 +460,4 @@ def verify_nswap(n):
 
 if __name__ == "__main__":
 
-    n = 2
-
-    stab, msmts = entangled_rectangle_with_inputs(n, 3)
-
-    display(stab, shownumbers=True, logicals=2 * n)
-
-    pattern = [(i, X, +1) for i in range(1, msmts + 1)]
-
-    measurepattern(stab, pattern, verbose=True, logicals=2 * n)
+    pass
