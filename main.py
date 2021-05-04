@@ -458,6 +458,54 @@ def verify_nswap(n):
     measurepattern(stab, pattern, verbose=True, logicals=2 * n)
 
 
+def verify_cpg():
+
+    # This evaluates the stabilizer state after measuring
+    # Paulis in Raussendorf's CPG gate.
+    # The non-Paulis are on qubits 4, 6 and 8 and afterwards
+    # should be measured in:
+    # 4: -^(s3+s5+s7) theta/2
+    # 6: -^(s5+s7) theta/2
+    # 8: -^(s3+s7) theta/2
+    # where theta is the controlled phase angle.
+    #
+    # Qubit arrangement:
+    # 1 - 3 - 6 - 9 - 11
+    #     |   |
+    #     4 - 7
+    #     |   |
+    # 2 - 5 - 8 - 10- 12
+
+    INPUTS = 2
+    QUBITS = 12
+
+    stab = stab_with_inputs(INPUTS, QUBITS)
+
+    edges = [(1, 3), (3, 6), (6, 9), (9, 11),
+             (3, 4), (6, 7),
+             (4, 7),
+             (4, 5), (7, 8),
+             (2, 5), (5, 8), (8, 10), (10, 12)]
+
+    display(stab, logicals=4, shownumbers=True)
+
+    print("Entangling")
+    stab = entangle(stab, edges)
+
+    pattern = [(1, X, +1),
+               (2, X, +1),
+               (3, X, -1),
+               # No 4
+               (5, X, -1),
+               # No 6
+               (7, X, +1),
+               # No 8
+               (9, X, +1),
+               (10, X, +1)]
+
+    measurepattern(stab, pattern, verbose=True, logicals=4)
+
+
 if __name__ == "__main__":
 
-    pass
+    verify_cpg()
